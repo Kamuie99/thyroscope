@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+아래는 주어진 요구사항을 반영하여 작성된 README 파일입니다. 이 README는 프로젝트의 설치 방법과 요구사항을 충족하는 방식에 대해 설명합니다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+markdown
+코드 복사
+# 사용자 관리 애플리케이션
 
-## Available Scripts
+이 프로젝트는 사용자를 등록, 수정, 삭제할 수 있는 간단한 사용자 관리 애플리케이션입니다. React와 상태 관리 라이브러리인 Zustand를 사용하여 상태를 관리하고, 사용자 인터페이스는 스타일드 컴포넌트(Styled-Components)를 사용하여 구현되었습니다.
 
-In the project directory, you can run:
+## 설치 및 실행 방법
 
-### `npm start`
+이 프로젝트를 클론한 후, 필요한 패키지를 설치하고 로컬 서버를 실행하려면 다음 명령어를 사용하세요:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. 패키지 설치:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```bash
+   npm install
+애플리케이션 실행:
 
-### `npm test`
+bash
+코드 복사
+npm start
+로컬 개발 서버가 실행되며, 브라우저에서 http://localhost:3000으로 이동하면 애플리케이션을 확인할 수 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+요구사항
+이 프로젝트는 다음과 같은 요구사항을 만족합니다:
 
-### `npm run build`
+화면의 레이아웃 및 스타일
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+애플리케이션의 기능을 판단하기에 무리가 없을 정도로 구현되었습니다.
+폰트, 색상, margin, width 등이 요구사항과 완전히 동일할 필요는 없습니다. 필요한 정도로만 구현되었습니다.
+앱의 기능
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+사용자 출력, 등록, 수정, 삭제 기능을 포함합니다.
+사용자 등록 및 수정 시 Input 유효성 검증이 포함되어 있습니다.
+동일한 email의 사용자를 등록/수정할 수 없습니다. 이미 등록된 이메일로 새로운 사용자를 추가하거나 기존 사용자를 수정하려고 하면 에러가 발생합니다.
+유효하지 않은 입력값을 방지하기 위해 다음 정규식을 사용합니다:
+username, nickname: /^[가-힣a-zA-Z\s\d]{3,15}$/
+email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+기타 기능
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+페이지네이션: 사용자가 많은 경우 페이지네이션 기능을 통해 한 번에 5명씩 사용자 목록을 보여줍니다.
+검색 기능: username으로 사용자를 검색할 수 있습니다.
+정렬 기능: 테이블 헤더를 클릭하여 username, email, nickname, gender 별로 오름차순/내림차순으로 정렬할 수 있습니다. 클릭 시 정렬 순서는 오름차순 -> 내림차순 -> 기본 상태 순으로 돌아갑니다.
+사용된 라이브러리
 
-### `npm run eject`
+React 관련 라이브러리 사용: zustand를 사용하여 상태 관리를 구현하였습니다.
+styled-components를 사용하여 컴포넌트의 스타일을 관리하고 있습니다.
+코드 가독성
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+적절한 추상화, 변수 네이밍, 컴포넌트 분리를 통해 코드 가독성에 신경 썼습니다.
+사용된 주요 기술 스택
+React: 사용자 인터페이스를 구성하기 위해 사용되었습니다.
+Zustand: 상태 관리를 위해 사용된 경량 상태 관리 라이브러리입니다.
+Styled-Components: 컴포넌트 기반으로 스타일을 작성하기 위해 사용되었습니다.
+기여 방법
+이 프로젝트에 기여하고 싶다면 포크를 뜨고 Pull Request를 보내주세요. 이슈가 있거나 개선사항이 있다면 언제든지 Issues에 등록해 주시기 바랍니다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+라이선스
+이 프로젝트는 MIT 라이선스를 따릅니다. 자세한 내용은 LICENSE 파일을 참조하세요.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+위의 README 파일은 프로젝트의 설치 방법과 주요 기능, 사용된 기술 스택, 그리고 기여 방법에 대해 상세하

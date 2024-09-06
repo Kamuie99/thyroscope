@@ -43,15 +43,14 @@ const DeleteButton = styled.button`
 
 // UserListItem 컴포넌트: 개별 사용자 정보를 표시하고 관리합니다.
 const UserListItem = ({ user }) => {
-  const { users, deleteUser, updateUser } = useUserStore();
+  const { deleteUser, updateUser } = useUserStore();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user);
-  const [isSelected, setIsSelected] = useState(false);
 
-  // 사용자 선택 상태가 변경될 때마다 편집 모드를 업데이트합니다.
+  // 처음 로드되거나 user prop이 변경될 때 editedUser 상태를 갱신
   useEffect(() => {
-    setIsEditing(isSelected);
-  }, [isSelected]);
+    setEditedUser(user);
+  }, [user]);
 
   // 입력 필드 값이 변경될 때 호출되는 함수
   const handleEditChange = (e) => {
@@ -61,20 +60,14 @@ const UserListItem = ({ user }) => {
 
   // 변경사항을 저장하는 함수
   const handleSave = () => {
-    // 이메일 중복 검사
-    if (users.some(existingUser => existingUser.email === editedUser.email && existingUser.email !== user.email)) {
-      alert("이미 등록된 이메일이 존재합니다.");
-      return; // 중복이 있으면 저장하지 않음
-    }
-
-    updateUser(editedUser);
-    setIsSelected(false); // 편집 모드 종료
+    updateUser(editedUser); // ID로 사용자를 찾아 업데이트
+    setIsEditing(false); // 편집 모드 종료
   };
 
   // 사용자를 삭제하는 함수
   const handleDelete = () => {
-    deleteUser(user.email);
-    setIsSelected(false); // 편집 모드 종료
+    deleteUser(user.id); // ID로 사용자를 찾아 삭제
+    setIsEditing(false); // 편집 모드 종료
   };
 
   // 사용자 정보를 표시하거나 편집하는 셀을 생성하는 함수
@@ -95,7 +88,7 @@ const UserListItem = ({ user }) => {
           />
         )
       ) : (
-        user[field]
+        user[field] // 편집 모드가 아닐 때는 기존 데이터를 표시
       )}
     </TableCell>
   );
@@ -106,8 +99,13 @@ const UserListItem = ({ user }) => {
       <TableCell>
         <input
           type="checkbox"
-          checked={isSelected}
-          onChange={() => setIsSelected(!isSelected)}
+          checked={isEditing}
+          onChange={() => {
+            if (!isEditing) {
+              setEditedUser(user); // 체크박스 눌렀을 때 최신 상태 반영
+            }
+            setIsEditing(!isEditing);
+          }}
         />
       </TableCell>
 

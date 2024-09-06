@@ -2,16 +2,17 @@ import create from 'zustand';
 
 const useUserStore = create((set) => ({
   users: [
-    { username: 'Frank', email: 'frank@thyroscope.com', nickname: 'mafia1', gender: 'female' },
-    { username: 'John', email: 'john@thyroscope.com', nickname: 'moderator', gender: 'male' },
-    { username: 'Julie', email: 'julie@thyroscope.com', nickname: 'civilian2', gender: 'female' },
-    { username: 'Steve', email: 'steve@thyroscope.com', nickname: 'civilian1', gender: 'male' },
+    { id: 0, username: 'Frank', email: 'frank@thyroscope.com', nickname: 'mafia1', gender: 'female' },
+    { id: 1, username: 'John', email: 'john@thyroscope.com', nickname: 'moderator', gender: 'male' },
+    { id: 2, username: 'Julie', email: 'julie@thyroscope.com', nickname: 'civilian2', gender: 'female' },
+    { id: 3, username: 'Steve', email: 'steve@thyroscope.com', nickname: 'civilian1', gender: 'male' },
   ],
+  // originalUsers 추가
   originalUsers: [
-    { username: 'Frank', email: 'frank@thyroscope.com', nickname: 'mafia1', gender: 'female' },
-    { username: 'John', email: 'john@thyroscope.com', nickname: 'moderator', gender: 'male' },
-    { username: 'Julie', email: 'julie@thyroscope.com', nickname: 'civilian2', gender: 'female' },
-    { username: 'Steve', email: 'steve@thyroscope.com', nickname: 'civilian1', gender: 'male' },
+    { id: 0, username: 'Frank', email: 'frank@thyroscope.com', nickname: 'mafia1', gender: 'female' },
+    { id: 1, username: 'John', email: 'john@thyroscope.com', nickname: 'moderator', gender: 'male' },
+    { id: 2, username: 'Julie', email: 'julie@thyroscope.com', nickname: 'civilian2', gender: 'female' },
+    { id: 3, username: 'Steve', email: 'steve@thyroscope.com', nickname: 'civilian1', gender: 'male' },
   ],
   filteredUsers: [],
   searchQuery: '',
@@ -23,22 +24,20 @@ const useUserStore = create((set) => ({
   }),
 
   addUser: (user) => set((state) => ({
-    users: [...state.users, user],
-    originalUsers: [...state.originalUsers, user],  // originalUsers 업데이트
+    users: [...state.users, { ...user, id: state.users.length }], // 새로운 유저에게 고유 id 부여
+    originalUsers: [...state.originalUsers, { ...user, id: state.users.length }] // originalUsers에도 추가
   })),
-
   updateUser: (updatedUser) => set((state) => ({
     users: state.users.map((user) =>
-      user.email === updatedUser.email ? updatedUser : user
+      user.id === updatedUser.id ? updatedUser : user
     ),
     originalUsers: state.originalUsers.map((user) =>
-      user.email === updatedUser.email ? updatedUser : user
-    ),  // originalUsers 업데이트
+      user.id === updatedUser.id ? updatedUser : user
+    ) // originalUsers에서도 업데이트
   })),
-
-  deleteUser: (email) => set((state) => ({
-    users: state.users.filter((user) => user.email !== email),
-    originalUsers: state.originalUsers.filter((user) => user.email !== email),  // originalUsers 업데이트
+  deleteUser: (id) => set((state) => ({
+    users: state.users.filter((user) => user.id !== id),
+    originalUsers: state.originalUsers.filter((user) => user.id !== id) // originalUsers에서도 삭제
   })),
 
   sortUsers: (key, order) => set((state) => {
